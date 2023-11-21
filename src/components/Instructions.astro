@@ -1,0 +1,60 @@
+---
+interface Props {
+  title: string;
+  id: string;
+  className?: string;
+}
+const {title, className, id} = Astro.props;
+import Download from "./Icons/Download";
+
+const samples = [
+  {
+    name: 'CSV Format',
+    url: '/sample/names.csv',
+  },
+  {
+    name: 'JSON Format',
+    url: '/sample/names.json',
+  },
+]
+---
+
+<aside
+        id={id}
+        class={`h-box absolute left-0 right-0 mt-10 text-gray-300 transition-all duration-700 ease-out opacity-1 ${className ?? ''}`}>
+    <div>
+      {title && <h2 class="text-3xl font-bold mb-5 text-white">{title}</h2>}
+        <p>You can upload a CSV or JSON file and it'll return a file in the same format as you entered, but with the
+            name
+            split in first, middle and last name.</p>
+        <p>For both formats, you don't need to insert any column name or key names.</p>
+        <ul class="mt-10">
+          {
+            samples.map((item) => {
+              return (
+                      <li class="mb-7">
+                          <a href={item.url}
+                             download
+                             class="subtitle">
+                            {item.name}
+                              <Download className="w-6"/>
+                          </a>
+                      </li>
+              )
+            })
+          }
+        </ul>
+    </div>
+</aside>
+
+<style>
+    aside.hide {
+        transform: scale(0) translate(-100%, 100%);
+        opacity: 0;
+        transform-origin: left bottom;
+    }
+
+    .subtitle {
+        @apply font-bold text-white transition-all duration-200 hover:scale-[1.2] flex items-center justify-center gap-3 pb-1;
+    }
+</style>

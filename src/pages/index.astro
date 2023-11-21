@@ -1,0 +1,15 @@
+---
+import Layout from '../layouts/Layout.astro';
+import InputFileReact from '../components/InputFile.jsx';
+import InstructionWrapper from "../components/InstructionWrapper.astro";
+
+const title = 'Name Split';
+---
+
+<Layout title={title}>
+    <main class="relative mx-auto w-[800px] max-w-[calc(100%-2rem)] text-white text-[20px] leading-[1.6]">
+        <h1 class="font-bold text-center mb-[1em] text-4xl md:text-6xl">{title}</h1>
+        <InputFileReact client:load inputName='file' title="Drag or upload your file."/>
+        <InstructionWrapper title="Instructions"/>
+    </main>
+</Layout>

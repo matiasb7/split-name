@@ -1,0 +1,67 @@
+---
+import Instructions from "./Instructions.astro";
+interface Props {
+  title: string;
+}
+import {INSTRUCTIONS_EVENT_LISTENER} from "../constants.js";
+import InstructionsIcon from "./Icons/InstructionsIcon";
+const {title} = Astro.props;
+---
+
+<div id="instructions-container"
+     class="fixed left-5 bottom-28 md:left-24 md:bottom-24 w-[350px] max-h-full max-w-[90%] h-auto overflow-hidden">
+    <Instructions id="floating-instructions" title={title} className="mt-0 relative hide text-lg"/>
+    <button aria-label="Instructions"
+            id="instructions-button"
+            class="w-20 h-20 items-center flex justify-center rounded-full bg-[#13151a] fixed bottom-6 left-6">
+        <InstructionsIcon className="w-10 h-10"/>
+    </button>
+</div>
+
+<style>
+    button:hover {
+        animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
+        transform: translate3d(0, 0, 0);
+        perspective: 1000px;
+    }
+
+    @keyframes shake {
+        10%, 90% {
+            transform: translate3d(-1px, 0, 0);
+        }
+        20%, 80% {
+            transform: translate3d(2px, 0, 0);
+        }
+        30%, 50%, 70% {
+            transform: translate3d(-4px, 0, 0);
+        }
+        40%, 60% {
+            transform: translate3d(4px, 0, 0);
+        }
+    }
+
+    #instructions-container.hide {
+        z-index: -1;
+    }
+</style>
+
+<script define:vars={{INSTRUCTIONS_EVENT_LISTENER}} client:load>
+  const button = document.querySelector('#instructions-button');
+  const instructionsContainer = document.querySelector('#instructions-container');
+  const instructions = document.querySelector('#floating-instructions');
+  const hideClassName = 'hide'
+
+  // Open instructions on load with animation
+  window.addEventListener('load', () => {
+    if (window.innerWidth < 768) return;
+    setTimeout(() => {
+      instructionsContainer.classList.remove(hideClassName);
+      instructions.classList.remove(hideClassName);
+    }, 100);
+  });
+
+  button.addEventListener('click', () => {
+    instructionsContainer.classList.toggle(hideClassName);
+    instructions.classList.toggle(hideClassName);
+  });
+</script>
